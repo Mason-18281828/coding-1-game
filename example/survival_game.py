@@ -21,7 +21,7 @@ game_data = {
     'eagle_icon': "\U0001F985",# 🦅
     'obstacle': "\U0001FAA8 ",# 🪨
     'leaf': "\U0001F343",# 🍃
-    'empty': "..",
+    'empty': "  ",
 }
 
 def draw_board(stdscr):
@@ -39,7 +39,7 @@ def draw_board(stdscr):
                 row += game_data['leaf']
             else:
                 row += game_data['empty']
-        stdscr.addstr(y, 0, row)
+        stdscr.addstr(y, 0, row, curses.color_pair(1))
 
     stdscr.addstr(game_data['height'] + 1, 0,
                   f"Score (Moves Survived): {game_data['player']['score']}")
@@ -169,6 +169,10 @@ def spawn_leaf():
 
 def play_game(stdscr):
     curses.curs_set(0)
+    curses.start_color()
+    curses.use_default_colors()
+    curses.init_pair(1, curses.COLOR_WHITE, -1)
+
     stdscr.nodelay(True)
 
     draw_board(stdscr)

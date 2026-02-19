@@ -6,12 +6,12 @@ Part I: Planning & Design (15 pts)
 * Sketch a simple plan showing how the game will work step-by-step
 
 Game Idea:
-
+A forest maze which changes where you have to find enough collectables to go through the portal in a .
 
 Game Rules:
-
+Move and collect while upgrading gear and dodging enemies.
 
 Major Game Elements:
-
+Collecting gems. Speed upgrading
 
 Gameplay Process:

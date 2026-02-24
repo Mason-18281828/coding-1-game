@@ -3,18 +3,18 @@
 game_data = {
     'portal_spawn': False,
     'rooms': {
-        # rooms order: zero closed, one closed, two closed, three closed
-        # closed order: top, left, right, bottom
+        #rooms order: zero closed, one closed, two closed, three closed
+        #closed order: top, left, right, bottom
     },
     'starter_room': game_data['rooms'][0],
     'enemies': {
-        # whatever we come up with
+        #whatever we come up with
     },
     'gems': {
-        # daimonds, rubies, etc.
+        #daimonds, rubies, etc.
     }
     'boss': {
-        # boss stats
+        #boss stats
     },
     'x': 0,
     'y': 0,
@@ -37,13 +37,13 @@ player_data = {
     'x': 0,
     'y': 0,
     'models': {
-        # Whatever models we design. Can be just one.
+        #Whatever models we design. Can be just one.
     },
     'monster_repellent': 0
 }
 
 def draw_board(screen):
-    # Print the board and all game elements using curses
+    #Print the board and all game elements using curses
 
 
-# Good Luck!
+#Good Luck!

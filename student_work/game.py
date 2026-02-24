@@ -34,6 +34,8 @@ player_data = {
     'gem_num': 0,
     'health': 5,
     'speed': 1,
+    'x': 0,
+    'y': 0,
     'models': {
         # Whatever models we design. Can be just one.
     },

@@ -22,3 +22,11 @@ Major Game Elements:
 Collecting gems. Speed upgrading.
 
 Gameplay Process:
+go through rooms. collect gems. dodge enemies. go through the portal
+
+the plan:
+1. create backgrounds and character/monster/gem/chest/plant/hearts designs
+2. create functions for how various monsters move and for rng for chest and monster chance and for room chance
+3. put in inputs from player and start creating the home screen
+4. put in a way to up the ability via limited hearts and more devious rng
+5. incorporate boss mode (make the boss, show how the boss works, etc.)

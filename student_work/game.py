@@ -11,7 +11,7 @@ game_data = {
         #whatever we come up with
     },
     'gems': {
-        #daimonds, rubies, etc.
+        #diamonds, rubies, etc.
     }
     'boss': {
         #boss stats

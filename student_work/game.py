@@ -15,7 +15,9 @@ game_data = {
     }
     'boss': {
         # boss stats
-    }
+    },
+    'x': 0,
+    'y': 0,
     'room_details': {
         'plants': {
             'vines': [],

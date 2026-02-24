@@ -6,12 +6,19 @@ Part I: Planning & Design (15 pts)
 * Sketch a simple plan showing how the game will work step-by-step
 
 Game Idea:
-A forest maze which changes where you have to find enough collectables to go through the portal in a .
+A forest maze which changes where you have to find enough collectables to go through the portal.
 
 Game Rules:
 Move and collect while upgrading gear and dodging enemies.
+Obstacles: walls (possibly and boxes)
+Scoring system: how few hearts lost and rooms entered
+Win condition: enter a portal
+Lose condition: get hit by # hearts times
+Normal move controls, press 'e' by chests to open
+
+30 by 30 squares for size
 
 Major Game Elements:
-Collecting gems. Speed upgrading
+Collecting gems. Speed upgrading.
 
 Gameplay Process:

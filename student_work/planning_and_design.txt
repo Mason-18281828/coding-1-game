@@ -6,12 +6,25 @@ Part I: Planning & Design (15 pts)
 * Sketch a simple plan showing how the game will work step-by-step
 
 Game Idea:
-
+Move around a randomly generated maze to collect things until you have enough to spawn a portal room
 
 Game Rules:
+Collect lots of gems
+Get to a portal room
+Player actions: move around, press e to collect chest
+there will be walls, enemies, chests, gems (in chests), speed upgrades (in different chests), and decoration
+win condition: go through a portal
+lose condition: get hit enough times or hit by the boss.
+scoring: how few rooms and few hearts lost times the difficutly and the boss
 
+28 by 27 (3 x 3 corners always filled in, 3x3 to be possible openings, 3x3 middle, plus a bottom row for stats)
 
 Major Game Elements:
-
+collect stuff. dodge enemies. go through portal. be speedy.
 
 Gameplay Process:
+
+first create the background(s), then the enemies, player, gems, chests, boots, hearts, and plants.
+next create pathing for the monsters and rng systems for the chests, boots, plants and monsters
+then create a way to change rng systems and loading screens
+finally, create the boss mode

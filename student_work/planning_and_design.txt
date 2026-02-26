@@ -23,3 +23,10 @@ first create the background(s), then the enemies, player, gems, chests, boots, h
 next create pathing for the monsters and rng systems for the chests, boots, plants and monsters
 then create a way to change rng systems and loading screens
 finally, create the boss mode
+
+Icons:
+🌀1F300 - portal?
+ - player
+ - enemies
+ - boss
+ - walls

@@ -30,3 +30,4 @@ Icons:
  - enemies
  - boss
  - walls
+ - gems

@@ -12,7 +12,7 @@ win condition: go through a portal
 lose condition: get hit enough times or hit by the boss.
 scoring: how few rooms and few hearts lost times the difficutly and the boss
 
-6 by 7 (3 x 3 corners always filled in, 3x3 to be possible openings, 3x3 middle, plus a bottom row for stats)
+6 by 6 (2 x 2 corners always filled in, 2x2 to be possible openings, 2x2 middle)
 
 Major Game Elements:
 collect stuff. dodge enemies. go through portal. be speedy.
@@ -25,9 +25,10 @@ then create a way to change rng systems and loading screens
 finally, create the boss mode
 
 Icons:
-🌀1F300 - portal
- - player
- - enemies
- - boss
- - walls
- - gems
+🌀\U0001F300 - portal
+ - player \U0001F430
+ - enemies \U0001F480, \U0001F47B, \U00002668
+ - boss \U0001F621
+ - walls \U000025FC
+ - gems \U00001F48E
+ - heart alive - U0001F496 dead - \U00002764

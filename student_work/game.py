@@ -8,23 +8,42 @@
 import curses
 
 game_data = {
-    'width': 5,
-    'height': 5,
-    'player': {"x": 0, "y": 0, "score": 0, "energy": 10, "max_energy": 10},
-    'eagle_pos': {"x": 4, "y": 4},
+    'width': 6,
+    'height': 7,
+    'player': {"x": 3, "y": 3, "score": 0},
+    # 'eagle_pos': {"x": 4, "y": 4},
     'collectibles': [
-        {"x": 2, "y": 1, "collected": False},
+        {"x": 3, "y": 1, "collected": False},
     ],
-    'obstacles': [
-        {"x": 1, "y": 2},
-        {"x": 3, "y": 1}
-    ],
+    'hearts': ['live', 'live', 'live', 'live', 'live'],
+    'rooms': {
+        'walls_1': [
+            {"x": 1, "y": 1},
+            {"x": 1, "y": 2},
+            {"x": 1, "y": 5},
+            {"x": 1, "y": 6},
+            {"x": 2, "y": 1},
+            {"x": 2, "y": 2},
+            {"x": 2, "y": 5},
+            {"x": 2, "y": 6},
+            {"x": 5, "y": 1},
+            {"x": 5, "y": 2},
+            {"x": 5, "y": 5},
+            {"x": 5, "y": 6},
+            {"x": 6, "y": 1},
+            {"x": 6, "y": 2},
+            {"x": 6, "y": 5},
+            {"x": 6, "y": 6},
+        ]
+    },
 
     # ASCII icons
-    'turtle': "\U0001F422",
-    'eagle_icon': "\U0001F985",
-    'obstacle': "\U0001FAA8 ",
-    'leaf': "\U0001F343",
+    'player': "\U0001F422",
+    # 'eagle_icon': "\U0001F985",
+    'walls': "\U000025F6",
+    'gem': "\U0001F48E",
+    'heart-dead': '\U00002764',
+    'heart-live': '\U0001F496',
     'empty': "  "
 }
 
@@ -34,21 +53,27 @@ def draw_board(stdscr):
     curses.init_pair(1, curses.COLOR_WHITE, -1)
 
     stdscr.clear()
+    room = 1
     for y in range(game_data['height']):
         row = ""
         for x in range(game_data['width']):
+            if y == 6:
+                for hearts in range(6):
+                    if game_data['hearts'][hearts] == 'live':
+                        row += game_data["heart-live"]
+                    else:
+                        row += game_data["heart-dead"]
+                row += game_data["empty"]
+                break
             # Player
             if x == game_data['player']['x'] and y == game_data['player']['y']:
-                row += game_data['turtle']
-            # Eagle
-            elif x == game_data['eagle_pos']['x'] and y == game_data['eagle_pos']['y']:
-                row += game_data['eagle_icon']
+                row += game_data['player']
             # Obstacles
-            elif any(o['x'] == x and o['y'] == y for o in game_data['obstacles']):
-                row += game_data['obstacle']
+            elif any(o['x'] == x and o['y'] == y for o in game_data['rooms'][f'walls_{room}']):
+                row += game_data['walls']
             # Collectibles
             elif any(c['x'] == x and c['y'] == y and not c['collected'] for c in game_data['collectibles']):
-                row += game_data['leaf']
+                row += game_data['gem']
             else:
                 row += game_data['empty']
         stdscr.addstr(y, 0, row, curses.color_pair(1))

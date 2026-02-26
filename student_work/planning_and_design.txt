@@ -25,7 +25,7 @@ then create a way to change rng systems and loading screens
 finally, create the boss mode
 
 Icons:
-🌀1F300 - portal?
+🌀1F300 - portal
  - player
  - enemies
  - boss

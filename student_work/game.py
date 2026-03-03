@@ -18,29 +18,29 @@ game_data = {
     'hearts': ['live', 'live', 'live', 'live', 'live'],
     'rooms': {
         'walls_1': [
-            {"x": 1, "y": 1},
-            {"x": 1, "y": 2},
-            {"x": 1, "y": 5},
-            {"x": 1, "y": 6},
-            {"x": 2, "y": 1},
-            {"x": 2, "y": 2},
-            {"x": 2, "y": 5},
-            {"x": 2, "y": 6},
-            {"x": 5, "y": 1},
-            {"x": 5, "y": 2},
-            {"x": 5, "y": 5},
-            {"x": 5, "y": 6},
-            {"x": 6, "y": 1},
-            {"x": 6, "y": 2},
-            {"x": 6, "y": 5},
-            {"x": 6, "y": 6},
+            {"x": 1-1, "y": 1-1},
+            {"x": 1-1, "y": 2-1},
+            {"x": 1-1, "y": 5-1},
+            {"x": 1-1, "y": 6-1},
+            {"x": 2-1, "y": 1-1},
+            {"x": 2-1, "y": 2-1},
+            {"x": 2-1, "y": 5-1},
+            {"x": 2-1, "y": 6-1},
+            {"x": 5-1, "y": 1-1},
+            {"x": 5-1, "y": 2-1},
+            {"x": 5-1, "y": 5-1},
+            {"x": 5-1, "y": 6-1},
+            {"x": 6-1, "y": 1-1},
+            {"x": 6-1, "y": 2-1},
+            {"x": 6-1, "y": 5-1},
+            {"x": 6-1, "y": 6-1},
         ]
     },
 
     # ASCII icons
-    'player': "\U0001F422",
+    'player_icon': "\U0001F422",
     # 'eagle_icon': "\U0001F985",
-    'walls': "\U000025F6",
+    'walls': "\U000025FC",
     'gem': "\U0001F48E",
     'heart-dead': '\U00002764',
     'heart-live': '\U0001F496',
@@ -58,7 +58,7 @@ def draw_board(stdscr):
         row = ""
         for x in range(game_data['width']):
             if y == 6:
-                for hearts in range(6):
+                for hearts in range(5):
                     if game_data['hearts'][hearts] == 'live':
                         row += game_data["heart-live"]
                     else:
@@ -67,7 +67,7 @@ def draw_board(stdscr):
                 break
             # Player
             if x == game_data['player']['x'] and y == game_data['player']['y']:
-                row += game_data['player']
+                row += game_data['player_icon']
             # Obstacles
             elif any(o['x'] == x and o['y'] == y for o in game_data['rooms'][f'walls_{room}']):
                 row += game_data['walls']

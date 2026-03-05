@@ -78,6 +78,7 @@ game_data = {
         'walls_14': [],
         'walls_15': []
     },
+    'room_#': 0,
 
     # ASCII icons
     'player_icon': "\U0001F422",
@@ -105,13 +106,13 @@ game_data["rooms"]["walls_13"] = [a for a in game_data['doorways + basics']['bas
 game_data["rooms"]["walls_14"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block right'] + game_data['doorways + basics']['block down']]
 game_data["rooms"]["walls_15"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block right'] + game_data['doorways + basics']['block down']]
 
-def draw_board(stdscr):
+def draw_board(stdscr, room):
     curses.start_color()
     curses.use_default_colors()
     curses.init_pair(1, curses.COLOR_WHITE, -1)
 
     stdscr.clear()
-    room = random.randint(1, 9)
+    
     for y in range(game_data['height']):
         row = ""
         for x in range(game_data['width']):
@@ -124,13 +125,13 @@ def draw_board(stdscr):
                 row += game_data["empty"]
                 break
             if y == 7:
-               row += ("Items Collected" + " " + str(game_data['collectibles'][0]['how many']))
+               row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']))
                break
             # Player
             if x == game_data['player']['x'] and y == game_data['player']['y']:
                 row += game_data['player_icon']
             # Obstacles
-            elif any(o['x'] == x and o['y'] == y for o in game_data['rooms'][f'walls_{room}']):
+            elif any(o['x'] == x and o['y'] == y for o in game_data['rooms'][f'walls_{game_data['room_#']}']):
                 row += game_data['walls']
             # Collectibles
             elif any(c['x'] == x and c['y'] == y and not c['collected'] for c in game_data['collectibles']):
@@ -192,7 +193,29 @@ def main(stdscr):
             if key.lower() == "q":
                 break
 
-            # put collectables here?
+            if game_data['player']['x'] not in range(0, 6) or game_data['player']['y'] not in range(0, 6):
+                global game_data
+                if game_data['player']['x'] > 5:
+                    game_data['player']['x'] == 0
+                elif game_data['player']['x'] < 0:
+                    game_data['player']['x'] == 5
+                elif game_data['player']['y'] > 5:
+                    game_data['player']['y'] == 0
+                elif game_data['player']['y'] < 0:
+                    game_data['player']['y'] == 5
+                
+                while True:
+                    game_data['room_#'] = random.randint(1, 16)
+                    if (game_data['player']['x'] in range(3, 5) and game_data['player']['y'] == 0) and game_data['room_#'] in [2, 6, 7, 8, 12, 13, 14]:
+                        continue
+                    elif (game_data['player']['x'] in range(3, 5) and game_data['player']['y'] == 5) and game_data['room_#'] in [5, 8, 10, 11, 13, 14, 15]:
+                        continue
+                    elif (game_data['player']['y'] in range(3, 5) and game_data['player']['x'] == 0) and game_data['room_#'] in [3, 6, 9, 10, 12, 13, 15]:
+                        continue
+                    elif (game_data['player']['y'] in range(3, 5) and game_data['player']['x'] == 5) and game_data['room_#'] in [4, 7, 9, 11, 12, 14, 15]:
+                        continue
+
+            
 
             move_player(key)
             draw_board(stdscr)

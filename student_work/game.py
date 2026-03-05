@@ -10,7 +10,7 @@ import random
 
 game_data = {
     'width': 6,
-    'height': 7,
+    'height': 8,
     'player': {"x": 3, "y": 3, "score": 0},
     # 'eagle_pos': {"x": 4, "y": 4},
     'collectibles': [
@@ -123,6 +123,9 @@ def draw_board(stdscr):
                         row += game_data["heart-dead"]
                 row += game_data["empty"]
                 break
+            if y == 7:
+               row += ("Items Collected" + " " + str(game_data['collectibles'][0]['how many']))
+               break
             # Player
             if x == game_data['player']['x'] and y == game_data['player']['y']:
                 row += game_data['player_icon']
@@ -193,5 +196,6 @@ def main(stdscr):
 
             move_player(key)
             draw_board(stdscr)
+
 
 curses.wrapper(main)

@@ -78,7 +78,7 @@ game_data = {
         'walls_14': [],
         'walls_15': []
     },
-    'room_#': 0,
+    'room_#': 1,
 
     # ASCII icons
     'player_icon': "\U0001F422",
@@ -125,13 +125,13 @@ def draw_board(stdscr, room):
                 row += game_data["empty"]
                 break
             if y == 7:
-               row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']))
+               row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']) + str(game_data['player']['x']) + ', ' + str(game_data['player']['y']))
                break
             # Player
             if x == game_data['player']['x'] and y == game_data['player']['y']:
                 row += game_data['player_icon']
             # Obstacles
-            elif any(o['x'] == x and o['y'] == y for o in game_data['rooms'][f'walls_{game_data['room_#']}']):
+            elif any(o['x'] == x and o['y'] == y for o in game_data['rooms'][f'walls_{room}']):
                 row += game_data['walls']
             # Collectibles
             elif any(c['x'] == x and c['y'] == y and not c['collected'] for c in game_data['collectibles']):
@@ -157,19 +157,42 @@ def move_player(key):
     new_x, new_y = x, y
     key = key.lower()
 
-    if key == "w" and y > 0:
+    if key == "w":
         new_y -= 1
-    elif key == "s" and y < game_data['height'] - 1:
+    elif key == "s":
         new_y += 1
-    elif key == "a" and x > 0:
+    elif key == "a":
         new_x -= 1
-    elif key == "d" and x < game_data['width'] - 1:
+    elif key == "d":
         new_x += 1
-    else:
-        return  # Invalid key or move off board
+    # else:
+    #     return  # Invalid key or move off board
+
+    if x not in range(0, 6) or y not in range(0, 6):
+                if x > 5:
+                    x = 0
+                elif x < 0:
+                    x = 5
+                elif y > 5:
+                    y = 0
+                elif y < 0:
+                    y = 5
+                
+                while True:
+                    game_data['room_#'] = random.randint(1, 15)
+                    if (game_data['player']['x'] in range(3, 5) and game_data['player']['y'] == 0) and game_data['room_#'] in [2, 6, 7, 8, 12, 13, 14]:
+                        continue
+                    elif (game_data['player']['x'] in range(3, 5) and game_data['player']['y'] == 5) and game_data['room_#'] in [5, 8, 10, 11, 13, 14, 15]:
+                        continue
+                    elif (game_data['player']['y'] in range(3, 5) and game_data['player']['x'] == 0) and game_data['room_#'] in [3, 6, 9, 10, 12, 13, 15]:
+                        continue
+                    elif (game_data['player']['y'] in range(3, 5) and game_data['player']['x'] == 5) and game_data['room_#'] in [4, 7, 9, 11, 12, 14, 15]:
+                        continue
+                    else:
+                        break
 
     # Check for obstacles
-    if any(o['x'] == new_x and o['y'] == new_y for o in game_data['rooms']['walls_1']):
+    if any(o['x'] == new_x and o['y'] == new_y for o in game_data['rooms'][f'walls_{game_data['room_#']}']):
         return
 
     # Update position and increment score
@@ -178,10 +201,11 @@ def move_player(key):
     game_data['player']['score'] += 1
 
 def main(stdscr):
+    global game_data
     curses.curs_set(0)
     stdscr.nodelay(True)
 
-    draw_board(stdscr)
+    draw_board(stdscr, game_data['room_#'])
 
     while True:
         try:
@@ -193,32 +217,10 @@ def main(stdscr):
             if key.lower() == "q":
                 break
 
-            if game_data['player']['x'] not in range(0, 6) or game_data['player']['y'] not in range(0, 6):
-                global game_data
-                if game_data['player']['x'] > 5:
-                    game_data['player']['x'] == 0
-                elif game_data['player']['x'] < 0:
-                    game_data['player']['x'] == 5
-                elif game_data['player']['y'] > 5:
-                    game_data['player']['y'] == 0
-                elif game_data['player']['y'] < 0:
-                    game_data['player']['y'] == 5
-                
-                while True:
-                    game_data['room_#'] = random.randint(1, 16)
-                    if (game_data['player']['x'] in range(3, 5) and game_data['player']['y'] == 0) and game_data['room_#'] in [2, 6, 7, 8, 12, 13, 14]:
-                        continue
-                    elif (game_data['player']['x'] in range(3, 5) and game_data['player']['y'] == 5) and game_data['room_#'] in [5, 8, 10, 11, 13, 14, 15]:
-                        continue
-                    elif (game_data['player']['y'] in range(3, 5) and game_data['player']['x'] == 0) and game_data['room_#'] in [3, 6, 9, 10, 12, 13, 15]:
-                        continue
-                    elif (game_data['player']['y'] in range(3, 5) and game_data['player']['x'] == 5) and game_data['room_#'] in [4, 7, 9, 11, 12, 14, 15]:
-                        continue
-
             
 
             move_player(key)
-            draw_board(stdscr)
+            draw_board(stdscr, game_data['room_#'])
 
 
 curses.wrapper(main)

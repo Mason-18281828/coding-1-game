@@ -79,6 +79,10 @@ game_data = {
         'walls_15': []
     },
     'room_#': 1,
+    'portal_data': {
+        'access': False,
+        'location': (2, 3)
+    },
 
     # ASCII icons
     'player_icon': "\U0001F422",
@@ -90,21 +94,23 @@ game_data = {
     'empty': "  "
 }
 
-game_data["rooms"]["walls_1"] = [a for a in game_data['doorways + basics']['basics']]
-game_data["rooms"]["walls_2"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top']]
-game_data["rooms"]["walls_3"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left']]
-game_data["rooms"]["walls_4"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block right']]
-game_data["rooms"]["walls_5"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block down']]
-game_data["rooms"]["walls_6"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block left']]
-game_data["rooms"]["walls_7"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block right']]
-game_data["rooms"]["walls_8"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block down']]
-game_data["rooms"]["walls_9"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block right']]
-game_data["rooms"]["walls_10"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block down']]
-game_data["rooms"]["walls_11"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block right'] + game_data['doorways + basics']['block down']]
-game_data["rooms"]["walls_12"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block right']]
-game_data["rooms"]["walls_13"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block down']]
-game_data["rooms"]["walls_14"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block right'] + game_data['doorways + basics']['block down']]
-game_data["rooms"]["walls_15"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block right'] + game_data['doorways + basics']['block down']]
+def update_game_data():
+    game_data["rooms"]["walls_1"] = [a for a in game_data['doorways + basics']['basics']]
+    game_data["rooms"]["walls_2"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top']]
+    game_data["rooms"]["walls_3"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left']]
+    game_data["rooms"]["walls_4"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block right']]
+    game_data["rooms"]["walls_5"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block down']]
+    game_data["rooms"]["walls_6"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block left']]
+    game_data["rooms"]["walls_7"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block right']]
+    game_data["rooms"]["walls_8"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block down']]
+    game_data["rooms"]["walls_9"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block right']]
+    game_data["rooms"]["walls_10"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block down']]
+    game_data["rooms"]["walls_11"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block right'] + game_data['doorways + basics']['block down']]
+    game_data["rooms"]["walls_12"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block right']]
+    game_data["rooms"]["walls_13"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block down']]
+    game_data["rooms"]["walls_14"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block top'] + game_data['doorways + basics']['block right'] + game_data['doorways + basics']['block down']]
+    game_data["rooms"]["walls_15"] = [a for a in game_data['doorways + basics']['basics'] + game_data['doorways + basics']['block left'] + game_data['doorways + basics']['block right'] + game_data['doorways + basics']['block down']]
+update_game_data()
 
 def draw_board(stdscr, room):
     curses.start_color()
@@ -140,7 +146,6 @@ def draw_board(stdscr, room):
                 row += game_data['empty']
         stdscr.addstr(y, 0, row, curses.color_pair(1))
 
-    
 def check_collectibles():
     for c in game_data['collectibles']:
         if (not c["collected"] and

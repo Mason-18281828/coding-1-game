@@ -12,7 +12,6 @@ game_data = {
     'width': 6,
     'height': 8,
     'player': {"x": 3, "y": 3, "score": 0},
-    # 'eagle_pos': {"x": 4, "y": 4},
     'collectibles': [
         {"x": 3, "y": 1, "collected": False, "how many": 0},
     ],
@@ -207,36 +206,21 @@ def move_player(key):
     game_data['player']['score'] += 1
 
 def spawn_gem():
-    # Limit number of leaves on board
-    active_leaves = [c for c in game_data['collectibles'] if not c["collected"]]
-    if len(active_leaves) >= 3:
-        return
-
-    # 20% chance each turn
-    if random.random() > 0.2:
-        return
-
     while True:
         x = random.randint(0, game_data['width'] - 1)
         y = random.randint(0, game_data['height'] - 1)
 
-        # Must not spawn on player, eagle, rock, or existing leaf
         if (x == game_data['player']["x"] and y == game_data['player']["y"]):
             continue
 
-        if any(o["x"] == x and o["y"] == y for o in game_data['obstacles']):
-            continue
-
-        if any(c["x"] == x and c["y"] == y and not c["collected"]
-               for c in game_data['collectibles']):
+        if any(o["x"] == x and o["y"] == y for o in game_data['obstacles'][f'room{game_data['room_#']}']):
             continue
 
         # Valid location found
-        game_data['collectibles'].append({
-            "x": x,
-            "y": y,
-            "collected": False
-        })
+        game_data['collectibles'][0]['x'] = x
+        game_data['collectibles'][0]['y'] = y
+        game_data['collectibles'][0]['collected'] = False
+        game_data['collectibles'][0]['how many'] += 1
         break
 
 def main(stdscr):
@@ -256,9 +240,9 @@ def main(stdscr):
             if key.lower() == "q":
                 break
 
-            
-
-            move_player(key)
+            moved = move_player(key)
+            if moved:
+                check_collectibles()
             draw_board(stdscr, game_data['room_#'])
 
 

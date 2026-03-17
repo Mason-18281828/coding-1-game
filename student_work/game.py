@@ -79,13 +79,12 @@ game_data = {
     },
     'room_#': 1,
     'portal_data': {
-        'access': False,
-        'location': (2, 3)
+        'win': False
     },
 
     # ASCII icons
     'player_icon': "\U0001F422",
-    # 'eagle_icon': "\U0001F985",
+    'portal': "\U0001F300",
     'walls': "\U000025FC ",
     'gem': "\U0001F48E",
     'heart-dead': '\U00002764',
@@ -120,39 +119,47 @@ def draw_board(stdscr, room):
    
     for y in range(game_data['height']):
         row = ""
-        for x in range(game_data['width']):
-            if y == 6:
-                for hearts in range(5):
-                    if game_data['hearts'][hearts] == 'live':
-                        row += game_data["heart-live"]
+        if not game_data['portal_data']['win']:
+            for x in range(game_data['width']):
+                if y == 6:
+                    for hearts in range(5):
+                        if game_data['hearts'][hearts] == 'live':
+                            row += game_data["heart-live"]
+                        else:
+                            row += game_data["heart-dead"]
+                    if game_data['collectibles'][0]['how many'] >= 10:
+                        row += game_data['portal']
                     else:
-                        row += game_data["heart-dead"]
-                row += game_data["empty"]
-                break
-            if y == 7:
-               row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']))
-               break
-            # Player
-            if x == game_data['player']['x'] and y == game_data['player']['y']:
-                row += game_data['player_icon']
-            # Obstacles
-            elif any(o['x'] == x and o['y'] == y for o in game_data['rooms'][f'walls_{room}']):
-                row += game_data['walls']
-            # Collectibles
-            elif any(c['x'] == x and c['y'] == y and not c['collected'] for c in game_data['collectibles']):
-                row += game_data['gem']
-            else:
-                row += game_data['empty']
+                        row += game_data["empty"]
+                    break
+                if y == 7:
+                    row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']))
+                    break
+                # Player
+                if x == game_data['player']['x'] and y == game_data['player']['y']:
+                    row += game_data['player_icon']
+                # Obstacles
+                elif any(o['x'] == x and o['y'] == y for o in game_data['rooms'][f'walls_{room}']):
+                    row += game_data['walls']
+                # Collectibles
+                elif any(c['x'] == x and c['y'] == y and not c['collected'] for c in game_data['collectibles']):
+                    row += game_data['gem']
+                else:
+                    row += game_data['empty']
+        else: row = 'YOU GOT HOME!!!!'
         stdscr.addstr(y, 0, row, curses.color_pair(1))
 
 def check_collectibles():
     for c in game_data['collectibles']:
         if (not c["collected"] and
-            game_data['player']["x"] == game_data["collectibles"]["x"] and
-            game_data['player']["y"] == game_data["collectibles"]["y"]):
+            game_data['player']["x"] == game_data["collectibles"][0]["x"] and
+            game_data['player']["y"] == game_data["collectibles"][0]["y"]):
 
             c["collected"] = True
-            game_data['collectibles']['how many'] += 1
+            game_data['collectibles'][0]['how many'] += 1
+    
+    if game_data['collectibles'][0]['how many'] >= 10 and game_data['player']['x'] == 5 and game_data['player']['y'] == 6:
+        game_data['portal_data']['win'] = True
 
 def move_player(key):
     x = game_data['player']['x']
@@ -181,7 +188,7 @@ def move_player(key):
                     y = 0
                 elif y < 0:
                     y = 5
-               
+                
                 while True:
                     game_data['room_#'] = random.randint(1, 15)
                     if (game_data['player']['x'] in range(3, 5) and game_data['player']['y'] == 0) and game_data['room_#'] in [2, 6, 7, 8, 12, 13, 14]:
@@ -194,16 +201,21 @@ def move_player(key):
                         continue
                     else:
                         break
+                
+                spawn_gem()
 
     # Check for obstacles
     if any(o['x'] == new_x and o['y'] == new_y for o in game_data['rooms'][f'walls_{game_data['room_#']}']):
         return
+    
+    check_collectibles()
 
    
     # Update position and increment score
     game_data['player']['x'] = new_x
     game_data['player']['y'] = new_y
-    game_data['player']['score'] += 1
+    # game_data['player']['score'] += 1
+    return key
 
 def spawn_gem():
     while True:
@@ -213,14 +225,14 @@ def spawn_gem():
         if (x == game_data['player']["x"] and y == game_data['player']["y"]):
             continue
 
-        if any(o["x"] == x and o["y"] == y for o in game_data['obstacles'][f'room{game_data['room_#']}']):
+        if any(o["x"] == x and o["y"] == y for o in game_data['rooms'][f'walls_{game_data['room_#']}']):
             continue
 
         # Valid location found
         game_data['collectibles'][0]['x'] = x
         game_data['collectibles'][0]['y'] = y
         game_data['collectibles'][0]['collected'] = False
-        game_data['collectibles'][0]['how many'] += 1
+        # game_data['collectibles'][0]['how many'] += 1
         break
 
 def main(stdscr):
@@ -240,10 +252,7 @@ def main(stdscr):
             if key.lower() == "q":
                 break
 
-            moved = move_player(key)
-            if moved:
-                check_collectibles()
+            move_player(key)
             draw_board(stdscr, game_data['room_#'])
-
 
 curses.wrapper(main)

@@ -131,7 +131,7 @@ def draw_board(stdscr, room):
                 row += game_data["empty"]
                 break
             if y == 7:
-               row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']) + str(game_data['player']['x']) + ', ' + str(game_data['player']['y']))
+               row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']))
                break
             # Player
             if x == game_data['player']['x'] and y == game_data['player']['y']:
@@ -149,8 +149,8 @@ def draw_board(stdscr, room):
 def check_collectibles():
     for c in game_data['collectibles']:
         if (not c["collected"] and
-            game_data['player']["x"] == c["x"] and
-            game_data['player']["y"] == c["y"]):
+            game_data['player']["x"] == game_data["collectibles"]["x"] and
+            game_data['player']["y"] == game_data["collectibles"]["y"]):
 
             c["collected"] = True
             game_data['collectibles']['how many'] += 1
@@ -200,10 +200,44 @@ def move_player(key):
     if any(o['x'] == new_x and o['y'] == new_y for o in game_data['rooms'][f'walls_{game_data['room_#']}']):
         return
 
+    
     # Update position and increment score
     game_data['player']['x'] = new_x
     game_data['player']['y'] = new_y
     game_data['player']['score'] += 1
+
+def spawn_gem():
+    # Limit number of leaves on board
+    active_leaves = [c for c in game_data['collectibles'] if not c["collected"]]
+    if len(active_leaves) >= 3:
+        return
+
+    # 20% chance each turn
+    if random.random() > 0.2:
+        return
+
+    while True:
+        x = random.randint(0, game_data['width'] - 1)
+        y = random.randint(0, game_data['height'] - 1)
+
+        # Must not spawn on player, eagle, rock, or existing leaf
+        if (x == game_data['player']["x"] and y == game_data['player']["y"]):
+            continue
+
+        if any(o["x"] == x and o["y"] == y for o in game_data['obstacles']):
+            continue
+
+        if any(c["x"] == x and c["y"] == y and not c["collected"]
+               for c in game_data['collectibles']):
+            continue
+
+        # Valid location found
+        game_data['collectibles'].append({
+            "x": x,
+            "y": y,
+            "collected": False
+        })
+        break
 
 def main(stdscr):
     global game_data

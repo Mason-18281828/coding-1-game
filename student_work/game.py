@@ -117,7 +117,7 @@ def draw_board(stdscr, room):
     curses.init_pair(1, curses.COLOR_WHITE, -1)
 
     stdscr.clear()
-    
+   
     for y in range(game_data['height']):
         row = ""
         for x in range(game_data['width']):
@@ -181,7 +181,7 @@ def move_player(key):
                     y = 0
                 elif y < 0:
                     y = 5
-                
+               
                 while True:
                     game_data['room_#'] = random.randint(1, 15)
                     if (game_data['player']['x'] in range(3, 5) and game_data['player']['y'] == 0) and game_data['room_#'] in [2, 6, 7, 8, 12, 13, 14]:
@@ -199,7 +199,7 @@ def move_player(key):
     if any(o['x'] == new_x and o['y'] == new_y for o in game_data['rooms'][f'walls_{game_data['room_#']}']):
         return
 
-    
+   
     # Update position and increment score
     game_data['player']['x'] = new_x
     game_data['player']['y'] = new_y

@@ -11,7 +11,7 @@ import random
 game_data = {
     'width': 6,
     'height': 8,
-    'player': {"x": random.randint(0, 5), "y": random.randint(3, 4), "score": 0},
+    'player': {"x": random.randint(0, 5), "y": random.randint(2, 3), "score": 0},
     'collectibles': [
         {"x": random.randint(0, 10), "y": random.randint(0, 10), "collected": False, "how many": 0},
     ],

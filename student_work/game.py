@@ -13,7 +13,7 @@ game_data = {
     'height': 8,
     'player': {"x": random.randint(0, 5), "y": random.randint(3, 4), "score": 0},
     'collectibles': [
-        {"x": -100, "y": 100, "collected": False, "how many": 0},
+        {"x": random.randint(0, 10), "y": random.randint(0, 10), "collected": False, "how many": 0},
     ],
     'hearts': ['live', 'live', 'live', 'live', 'live'],
     'doorways + basics': {

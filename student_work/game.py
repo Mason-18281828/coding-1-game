@@ -133,7 +133,7 @@ def draw_board(stdscr, room):
                         row += game_data["empty"]
                     break
                 if y == 7:
-                    row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']))
+                    row += ("Items Collected:" + " " + str(game_data['collectibles'][0]['how many']) + f" x: {game_data['player']['x']} y: {game_data['player']['y']}")
                     break
                 # Player
                 if x == game_data['player']['x'] and y == game_data['player']['y']:

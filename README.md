@@ -1,5 +1,5 @@
 # Video Game Project
-
+#Group: Mason T. and Andrea R.
 Due date: 3/6
 
 When you finish, add your video link here and submit one link to your project repository.
